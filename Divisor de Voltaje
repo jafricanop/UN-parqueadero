@@ -1,0 +1,61 @@
+int pinled = 0;
+float voltaje;
+float lecturaled = 0;
+int R = 10;
+int B = 11;
+int G = 12;
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(R, OUTPUT);
+  pinMode(G, OUTPUT);
+  pinMode(B, OUTPUT);
+  Serial.begin(9600);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+
+  lecturaled = analogRead(pinled);
+  voltaje = lecturaled * (5.0 / 1024.0);
+  Serial.println(voltaje);
+  prenderled();
+  delay(500);
+}
+
+void prenderled() {
+  if (voltaje < 0.83 && voltaje >= 0.0) {
+    analogWrite(R, 0);
+    analogWrite(G, 0);
+    analogWrite(B, 0);
+  } else {
+    if (voltaje < 1.6 && voltaje > 0.83) {
+      analogWrite(R, 255);
+      analogWrite(G, 0);
+      analogWrite(B, 0);
+    } else {
+      if (voltaje < 2.5 && voltaje > 1.6) {
+        analogWrite(G, 255);
+        analogWrite(R, 0);
+        analogWrite(B, 0);
+      } else {
+        if (voltaje < 3.3 && voltaje > 2.5) {
+          analogWrite(B, 255);
+          analogWrite(R, 0);
+          analogWrite(G, 0);
+        } else {
+          if (voltaje < 4.16 && voltaje > 3.3) {
+            analogWrite(B, 0);
+            analogWrite(R, 220);
+            analogWrite(G, 255);
+          } else {
+            if (voltaje < 5.0 && voltaje > 4.16) {
+              analogWrite(B, 120);
+              analogWrite(R, 0);
+              analogWrite(G, 180);
+            }
+          }
+        }
+      }
+    }
+  }
+}
